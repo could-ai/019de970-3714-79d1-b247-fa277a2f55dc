@@ -10,14 +10,12 @@ class PresentationApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'AI Presentation',
+      title: 'BA Presentation',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blueAccent,
-          brightness: Brightness.light,
-        ),
+        primarySwatch: Colors.blue,
         useMaterial3: true,
+        fontFamily: 'Roboto',
       ),
       home: const PresentationScreen(),
     );
@@ -40,43 +38,43 @@ class SlideData {
 
 const List<SlideData> presentationSlides = [
   SlideData(
-    title: 'The Future of AI App Development',
-    content: 'Welcome to the presentation.\nPresented by AI.',
+    title: 'Fundamentals of Business Administration',
+    content: 'Welcome to the presentation.\nA guide for BA Students.',
     isTitleSlide: true,
   ),
   SlideData(
-    title: '1. What is AI App Development?',
-    content: 'AI app development leverages large language models and autonomous agents to architect, build, and deploy software faster than ever before.',
+    title: '1. What is Business Administration?',
+    content: 'Business Administration involves overseeing the operations and decision-making processes within an organization to ensure efficiency and profitability.',
   ),
   SlideData(
-    title: '2. The Evolution',
-    content: 'We are moving from writing repetitive boilerplate code to writing descriptive prompts. The AI handles the syntax while developers focus on the product vision.',
+    title: '2. Core Components',
+    content: 'Key areas include Finance, Marketing, Human Resources, and Operations. A successful BA professional understands how these departments interact.',
   ),
   SlideData(
-    title: '3. Key Technologies',
-    content: 'Combining frameworks like Flutter for cross-platform UI with powerful LLMs allows for seamless generation of native iOS, Android, and Web applications.',
+    title: '3. Strategic Management',
+    content: 'Strategy involves setting long-term goals and determining the best approaches to achieve a competitive advantage in the market.',
   ),
   SlideData(
-    title: '4. Speed and Efficiency',
-    content: 'Development cycles are shortened from months to minutes. Instant live previews enable rapid iteration.',
-    imageUrl: 'https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&q=80&w=1000', // Rocket / Speed
+    title: '4. Organizational Behavior',
+    content: 'Understanding how people behave within groups is crucial for effective leadership, corporate culture development, and team management.',
+    imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1000', // Team collaboration
   ),
   SlideData(
-    title: '5. Revolutionizing the Workflow',
-    content: 'Platforms like CouldAI integrate the entire workflow into one intelligent environment, removing the friction of setting up environments, managing dependencies, and staging deployments.',
+    title: '5. Financial Accounting',
+    content: 'Finance is the language of business. BA students must master analyzing balance sheets, income statements, and cash flows to assess company health.',
   ),
   SlideData(
-    title: '6. Autonomous Agents',
-    content: 'Agents do not just write snippets; they read your entire codebase, understand architecture, and implement multi-file features safely.',
+    title: '6. Marketing Principles',
+    content: 'Marketing is more than advertising; it is about understanding customer needs, market research, positioning, and delivering value.',
   ),
   SlideData(
-    title: '7. Ensuring Quality',
-    content: 'AI agents can also write tests, perform refactoring, and identify security vulnerabilities early in the development lifecycle.',
+    title: '7. The Role of Analytics',
+    content: 'Modern business administration relies heavily on data. Business Analytics drives informed decision-making and forecasting trends.',
   ),
   SlideData(
-    title: '8. Real-world Applications',
-    content: 'From enterprise dashboards to consumer mobile apps, AI-generated code is reaching production-grade reliability.',
-    imageUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000', // Tech / Cyber
+    title: '8. Future of Business',
+    content: 'Global markets, sustainable practices, and technological integration are shaping the future landscape for business administrators.',
+    imageUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1000', // Business analytics/charts
   ),
   SlideData(
     title: 'Conclusion & Q&A',
@@ -124,67 +122,83 @@ class _PresentationScreenState extends State<PresentationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          PageView.builder(
-            controller: _pageController,
-            onPageChanged: (int page) {
-              setState(() {
-                _currentPage = page;
-              });
-            },
-            itemCount: presentationSlides.length,
-            itemBuilder: (context, index) {
-              return SlideWidget(slide: presentationSlides[index]);
-            },
-          ),
-          
-          // Navigation Controls
-          Positioned(
-            bottom: 30,
-            left: 0,
-            right: 0,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_ios, size: 30),
-                    onPressed: _currentPage > 0 ? _previousPage : null,
-                    color: _currentPage > 0 ? Colors.blueAccent : Colors.grey.withOpacity(0.5),
-                  ),
-                  Text(
-                    '${_currentPage + 1} / ${presentationSlides.length}',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black54,
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.arrow_forward_ios, size: 30),
-                    onPressed: _currentPage < presentationSlides.length - 1 ? _nextPage : null,
-                    color: _currentPage < presentationSlides.length - 1 ? Colors.blueAccent : Colors.grey.withOpacity(0.5),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          
-          // Progress Bar
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: LinearProgressIndicator(
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Progress Bar
+            LinearProgressIndicator(
               value: (_currentPage + 1) / presentationSlides.length,
               backgroundColor: Colors.grey[200],
               valueColor: const AlwaysStoppedAnimation<Color>(Colors.blueAccent),
               minHeight: 4,
             ),
-          ),
-        ],
+            
+            // Slides
+            Expanded(
+              child: PageView.builder(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentPage = index;
+                  });
+                },
+                itemCount: presentationSlides.length,
+                itemBuilder: (context, index) {
+                  return SlideWidget(slide: presentationSlides[index]);
+                },
+              ),
+            ),
+            
+            // Navigation Controls
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    offset: const Offset(0, -2),
+                    blurRadius: 10,
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Slide ${_currentPage + 1} of ${presentationSlides.length}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: _currentPage > 0 ? _previousPage : null,
+                        icon: const Icon(Icons.chevron_left),
+                        iconSize: 32,
+                        color: Colors.blueAccent,
+                        disabledColor: Colors.grey[300],
+                      ),
+                      const SizedBox(width: 16),
+                      IconButton(
+                        onPressed: _currentPage < presentationSlides.length - 1
+                            ? _nextPage
+                            : null,
+                        icon: const Icon(Icons.chevron_right),
+                        iconSize: 32,
+                        color: Colors.blueAccent,
+                        disabledColor: Colors.grey[300],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -198,13 +212,14 @@ class SlideWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool hasImage = slide.imageUrl != null;
-    
+
     if (slide.isTitleSlide) {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(40.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 slide.title,
@@ -215,7 +230,7 @@ class SlideWidget extends StatelessWidget {
                   color: Colors.black87,
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 32),
               Text(
                 slide.content,
                 textAlign: TextAlign.center,
@@ -232,7 +247,7 @@ class SlideWidget extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(60.0, 80.0, 60.0, 100.0),
+      padding: const EdgeInsets.all(40.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -244,7 +259,6 @@ class SlideWidget extends StatelessWidget {
               color: Colors.blueAccent,
             ),
           ),
-          const Divider(thickness: 2, color: Colors.blueAccent),
           const SizedBox(height: 40),
           Expanded(
             child: Row(
